@@ -1,0 +1,45 @@
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  font-size: 20px;
+
+  color-scheme: light dark;
+  color: white;
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0px;
+}
+
+#app {
+  padding: 10px 10px;
+  width: 100vw;
+  height: calc(100vh - 20px);
+  display: flex;
+  flex-direction: column;
+}
+
+#prompt {
+  display: flex;
+  gap: 2px;
+  justify-items: center;
+  width: 100%;
+  height: min-content;
+}
+
+#input {
+  width: auto;
+  background-color: #242424;
+  color: white;
+  outline: none;
+  border: 0px;
+  font-size: inherit;
+}
