@@ -1,6 +1,6 @@
-export default async function cd({ cmd, env }) {
+export default function cd({ cmd, env }) {
   let dir = env.PWD;
-  for (const [i, name] of Object.entries(cmd[0].split("/"))) {
+  for (const [i, name] of Object.entries(cmd._[1].split("/"))) {
     if (name.trim()) {
       if (name === ".") {
         if (i === 0) {

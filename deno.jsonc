@@ -1,0 +1,13 @@
+{
+  "tasks": {
+    "dev": "deno run -A --node-modules-dir npm:vite",
+    "build": "deno run -A --node-modules-dir npm:tsc && deno run -A --node-modules-dir npm:vite build",
+    "preview": "deno run -A --node-modules-dir npm:vite preview"
+  },
+  "compilerOptions": {
+    "lib": ["ESNext", "DOM"]
+  },
+  "imports": {
+    "vite": "npm:vite"
+  }
+}

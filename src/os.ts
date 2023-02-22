@@ -1,5 +1,7 @@
-import { binaries } from "./bin";
-import { readText, resolve, writeText } from "./fs";
+import { parse } from "https://bundle.deno.dev/https://deno.land/std@0.177.0/flags/mod.ts";
+
+import { binaries } from "./bin.ts";
+import { readText, resolveFile, resolveFolder, writeText } from "./fs.ts";
 
 // Initialize root
 const root = await navigator.storage.getDirectory();
@@ -30,7 +32,7 @@ const context = {
 };
 
 self.onmessage = async (event) => {
-  const command = event.data.split(" ");
+  const command = parse(event.data.split(" "));
 
   let stdout = "";
 
@@ -41,16 +43,17 @@ self.onmessage = async (event) => {
   };
 
   try {
-    const text = await readText("/bin/" + command[0] + ".js");
+    const text = await readText("/bin/" + command._[0] + ".js");
     const { default: run } = await import(
       /* @vite-ignore */ "data:text/javascript," + text
     );
 
     await run({
-      cmd: command.slice(1),
+      cmd: command,
       env: context.env,
       fs: {
-        resolve,
+        resolveFile,
+        resolveFolder,
         readText,
         writeText,
       },

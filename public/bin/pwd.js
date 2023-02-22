@@ -1,3 +1,3 @@
-export default async function pwd({ env }) {
+export default function pwd({ env }) {
   console.log(env.PWD);
 }

@@ -21,7 +21,7 @@ body {
 
 #app {
   padding: 10px 10px;
-  width: 100vw;
+  width: calc(100vw - 20px);
   height: calc(100vh - 20px);
   display: flex;
   flex-direction: column;
@@ -36,7 +36,7 @@ body {
 }
 
 #input {
-  width: auto;
+  flex-grow: 1;
   background-color: #242424;
   color: white;
   outline: none;

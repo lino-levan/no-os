@@ -6,5 +6,6 @@ export const binaries = [
   "ls",
   "mkdir",
   "pwd",
-  "touch"
+  "rm",
+  "touch",
 ];
