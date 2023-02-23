@@ -3,6 +3,7 @@
   "remote": {},
   "npm": {
     "specifiers": {
+      "tsc": "tsc@2.0.4",
       "vite": "vite@4.1.4"
     },
     "packages": {
@@ -181,6 +182,10 @@
       },
       "supports-preserve-symlinks-flag@1.0.0": {
         "integrity": "sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==",
+        "dependencies": {}
+      },
+      "tsc@2.0.4": {
+        "integrity": "sha512-fzoSieZI5KKJVBYGvwbVZs/J5za84f2lSTLPYf6AGiIf43tZ3GNrI1QzTLcjtyDDP4aLxd46RTZq1nQxe7+k5Q==",
         "dependencies": {}
       },
       "vite@4.1.4": {
