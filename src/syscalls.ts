@@ -1,7 +1,3 @@
-export async function normalize(path: string) {
-  // todo
-}
-
 export async function resolveFile(path: string, create?: boolean) {
   const folders = path.split("/");
   const file = folders.pop();
@@ -58,4 +54,11 @@ export async function write(path: string, buffer: Uint8Array) {
 export async function writeText(path: string, text: string) {
   const buffer = new TextEncoder().encode(text);
   await write(path, buffer);
+}
+
+export async function dlopen(name: string) {
+  const text = await readText("/lib/" + name + ".js");
+  return await import(
+    /* @vite-ignore */ "data:text/javascript," + encodeURI(text)
+  );
 }

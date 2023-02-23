@@ -1,38 +1,27 @@
-import { parse } from "https://bundle.deno.dev/https://deno.land/std@0.177.0/flags/mod.ts";
+import * as syscall from "./syscalls.ts";
+import { boot } from "./boot.ts";
 
-import { binaries } from "./bin.ts";
-import { readText, resolveFile, resolveFolder, writeText } from "./fs.ts";
+await boot();
 
-// Initialize root
-const root = await navigator.storage.getDirectory();
-
-// Clean up last run
-for await (const handle of root.values()) {
-  await root.removeEntry(handle.name, { "recursive": true });
-}
-
-// Create bin folder
-await root.getDirectoryHandle("bin", { create: true });
-const users = await root.getDirectoryHandle("users", { create: true });
-await users.getDirectoryHandle("default", { create: true });
-await writeText("/users/default/README.md", "## hi\nhello :O");
-
-// Write all of the default binaries to their proper positions in the fs
-for (const name of binaries) {
-  const path = "/bin/" + name + ".js";
-  const text = await (await fetch(path)).text();
-  await writeText(path, text);
-}
-
-const context = {
+const context: {
+  env: Record<string, string>;
+} = {
   env: {
     PATH: "/bin",
-    PWD: "/users/default",
+    PWD: "/home/default",
+    USER: "root",
   },
 };
 
 self.onmessage = async (event) => {
-  const command = parse(event.data.split(" "));
+  const command: string[] = event.data.split(" ");
+
+  // replace $ENV
+  for (let i = 0; i < command.length; i++) {
+    if (command[i].startsWith("$")) {
+      command[i] = context.env[command[i].slice(1)];
+    }
+  }
 
   let stdout = "";
 
@@ -43,7 +32,7 @@ self.onmessage = async (event) => {
   };
 
   try {
-    const text = await readText("/bin/" + command._[0] + ".js");
+    const text = await syscall.readText("/bin/" + command[0] + ".js");
     const { default: run } = await import(
       /* @vite-ignore */ "data:text/javascript," + text
     );
@@ -51,17 +40,12 @@ self.onmessage = async (event) => {
     await run({
       cmd: command,
       env: context.env,
-      fs: {
-        resolveFile,
-        resolveFolder,
-        readText,
-        writeText,
-      },
+      syscall,
     });
 
     await self.postMessage({ command: "result", stdout });
   } catch (err) {
-    await self.postMessage({ command: "result", stdout: err });
+    await self.postMessage({ command: "result", stdout: stdout + err });
   }
 
   console.log = real_log;

@@ -1,4 +1,7 @@
-export default async function touch({ cmd, env, fs }) {
-  const cwd = await fs.resolveFolder(env.PWD);
-  await cwd.getFileHandle(cmd._[1], { "create": true });
+export default async function touch({ cmd, env, syscall }) {
+  const { join } = await syscall.dlopen("path");
+
+  for (const file of cmd.slice(1)) {
+    await syscall.write(join(env.PWD, file));
+  }
 }

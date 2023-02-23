@@ -33,7 +33,6 @@ const history: string[] = [];
 let cur = -1;
 
 input.addEventListener("keydown", (e) => {
-  console.log(e.key);
   if (input.value.trim() === "clear") {
     input.value = "";
     past.innerText = "";

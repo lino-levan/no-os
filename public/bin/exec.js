@@ -1,3 +1,3 @@
 export default function exec({ cmd }) {
-  console.log(eval(cmd._.slice(1).join(" ")));
+  console.log(eval(cmd.slice(1).join(" ")));
 }

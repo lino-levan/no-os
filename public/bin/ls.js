@@ -1,5 +1,10 @@
-export default async function ls({ env, fs, cmd }) {
-  const cwd = await fs.resolveFolder(env.PWD);
+export default async function ls({ env, syscall, cmd }) {
+  const { parse } = await syscall.dlopen("flags");
+  const { join } = await syscall.dlopen("path");
+  cmd = parse(cmd);
+
+  const path = cmd._.length > 1 ? join(env.PWD, cmd._[1]) : env.PWD;
+  const cwd = await syscall.resolveFolder(path);
   const directories = [];
   const files = [];
 
